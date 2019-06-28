@@ -6,20 +6,26 @@ describe('runMiddleware', () => {
   })
 
   it('throws if context is null or undefined', () => {
-    expect(() => runMiddleware(null)).to.throw()
-    expect(() => runMiddleware(undefined)).to.throw()
+    expect(() => runMiddleware(null))
+      .to.throw('Running middlewares without a context object is not allowed.')
+    expect(() => runMiddleware(undefined))
+      .to.throw('Running middlewares without a context object is not allowed.')
   })
 
   it('throws if middlewares is not an array', () => {
-    expect(() => runMiddleware({})).to.throw()
-    expect(() => runMiddleware({}, null)).to.throw()
-    expect(() => runMiddleware({}, 'string')).to.throw()
+    const errorMessage = 'Expected middlewares to be an array.'
+
+    expect(() => runMiddleware({})).to.throw(errorMessage)
+    expect(() => runMiddleware({}, null)).to.throw(errorMessage)
+    expect(() => runMiddleware({}, 'string')).to.throw(errorMessage)
   })
 
-  it('throws if one or more middleware is not a function', () => {
-    expect(() => runMiddleware({}, [null])).to.throw()
-    expect(() => runMiddleware({}, [undefined])).to.throw()
-    expect(() => runMiddleware({}, ['string'])).to.throw()
+  it('throws if one or more middlewares is not a function', () => {
+    const errorMessage = 'Expected middleware to be a function'
+
+    expect(() => runMiddleware({}, [null])).to.throw(errorMessage)
+    expect(() => runMiddleware({}, [undefined])).to.throw(errorMessage)
+    expect(() => runMiddleware({}, ['string'])).to.throw(errorMessage)
   })
 
   it('returns a promise', () => {
@@ -83,14 +89,14 @@ describe('runMiddleware', () => {
 
       await expect(
         runMiddleware({}, [fn])
-      ).to.be.rejectedWith('next() was called multiple times')
+      ).to.be.rejectedWith('next() was called multiple times.')
 
       await expect(
         runMiddleware({}, [
           () => {},
           fn
         ])
-      ).to.be.rejectedWith('next() was called multiple times')
+      ).to.be.rejectedWith('next() was called multiple times.')
     })
 
     it('calls next middleware', async () => {

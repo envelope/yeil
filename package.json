@@ -15,6 +15,6 @@
   "scripts": {
     "test": "yarn mocha",
     "coverage": "nyc mocha",
-    "lint": "eslint test lib example"
+    "lint": "eslint test lib"
   }
 }

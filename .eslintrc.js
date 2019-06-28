@@ -16,6 +16,10 @@ module.exports = {
       files: ['test/**/*.test.js'],
       env: {
         mocha: true
+      },
+      globals: {
+        expect: true,
+        sinon: true
       }
     }
   ],
